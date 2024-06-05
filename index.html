@@ -17,6 +17,10 @@
     <button onclick="poddajeSie()">Poddaję się</button>
     <p id="message"></p>
     <p id="hint"></p>
+    <div id="history">
+      <h2>Historia prób:</h2>
+      <ul id="historyList"></ul>
+    </div>
     <script>
       let wylosowanaLitera;
       const polskiAlfabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPQRSŚTUVWXYZŹŻ";
@@ -31,6 +35,7 @@
         document.getElementById("message").textContent =
           "Wylosowano nową literę. Zgaduj!";
         document.getElementById("hint").textContent = "";
+        document.getElementById("historyList").innerHTML = "";
         console.log("Wylosowana litera: ", wylosowanaLitera); // Można usunąć po testach
       }
 
@@ -47,13 +52,19 @@
           const userIndex = polskiAlfabet.indexOf(userInput);
           const wylosowanaIndex = polskiAlfabet.indexOf(wylosowanaLitera);
 
+          let hintMessage;
           if (userIndex < wylosowanaIndex) {
-            document.getElementById("hint").textContent =
-              "Wylosowana litera jest dalej w alfabecie.";
+            hintMessage = "Wylosowana litera jest dalej w alfabecie.";
           } else {
-            document.getElementById("hint").textContent =
-              "Wylosowana litera jest bliżej początku alfabetu.";
+            hintMessage = "Wylosowana litera jest bliżej początku alfabetu.";
           }
+          document.getElementById("hint").textContent = hintMessage;
+
+          // Dodanie informacji do historii
+          const historyList = document.getElementById("historyList");
+          const historyItem = document.createElement("li");
+          historyItem.textContent = `Litera: ${userInput}, Wskazówka: ${hintMessage}`;
+          historyList.appendChild(historyItem);
         }
         document.getElementById("userInput").value = "";
       }
@@ -63,6 +74,7 @@
           "message"
         ).textContent = `Poddajesz się. Wylosowana litera to: ${wylosowanaLitera}. Wylosowano nową literę, możesz zgadywać ponownie.`;
         document.getElementById("hint").textContent = "";
+        document.getElementById("historyList").innerHTML = "";
         wylosowanaLitera = losujPolskaLitere();
         console.log("Wylosowana litera: ", wylosowanaLitera); // Można usunąć po testach
       }
