@@ -16,11 +16,12 @@
     <button onclick="sprawdzLitere()">Sprawdź</button>
     <button onclick="poddajeSie()">Poddaję się</button>
     <p id="message"></p>
+    <p id="hint"></p>
     <script>
       let wylosowanaLitera;
+      const polskiAlfabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPQRSŚTUVWXYZŹŻ";
 
       function losujPolskaLitere() {
-        const polskiAlfabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPQRSŚTUVWXYZŹŻ";
         const randomIndex = Math.floor(Math.random() * polskiAlfabet.length);
         return polskiAlfabet[randomIndex];
       }
@@ -29,6 +30,7 @@
         wylosowanaLitera = losujPolskaLitere();
         document.getElementById("message").textContent =
           "Wylosowano nową literę. Zgaduj!";
+        document.getElementById("hint").textContent = "";
         console.log("Wylosowana litera: ", wylosowanaLitera); // Można usunąć po testach
       }
 
@@ -39,8 +41,19 @@
         if (userInput === wylosowanaLitera) {
           document.getElementById("message").textContent =
             "Brawo! Zgadłeś literę!";
+          document.getElementById("hint").textContent = "";
         } else {
           document.getElementById("message").textContent = "Spróbuj ponownie!";
+          const userIndex = polskiAlfabet.indexOf(userInput);
+          const wylosowanaIndex = polskiAlfabet.indexOf(wylosowanaLitera);
+
+          if (userIndex < wylosowanaIndex) {
+            document.getElementById("hint").textContent =
+              "Wylosowana litera jest dalej w alfabecie.";
+          } else {
+            document.getElementById("hint").textContent =
+              "Wylosowana litera jest bliżej początku alfabetu.";
+          }
         }
         document.getElementById("userInput").value = "";
       }
@@ -49,6 +62,7 @@
         document.getElementById(
           "message"
         ).textContent = `Poddajesz się. Wylosowana litera to: ${wylosowanaLitera}. Wylosowano nową literę, możesz zgadywać ponownie.`;
+        document.getElementById("hint").textContent = "";
         wylosowanaLitera = losujPolskaLitere();
         console.log("Wylosowana litera: ", wylosowanaLitera); // Można usunąć po testach
       }
