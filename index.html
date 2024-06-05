@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Losowanie Litery</title>
+  </head>
+  <body>
+    <h1>Zgadnij Wylosowaną Literę</h1>
+    <input
+      type="text"
+      id="userInput"
+      maxlength="1"
+      placeholder="Wpisz literę"
+    />
+    <button onclick="sprawdzLitere()">Sprawdź</button>
+    <button onclick="poddajeSie()">Poddaję się</button>
+    <p id="message"></p>
+    <script>
+      let wylosowanaLitera;
+
+      function losujPolskaLitere() {
+        const polskiAlfabet = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPQRSŚTUVWXYZŹŻ";
+        const randomIndex = Math.floor(Math.random() * polskiAlfabet.length);
+        return polskiAlfabet[randomIndex];
+      }
+
+      function inicjalizuj() {
+        wylosowanaLitera = losujPolskaLitere();
+        document.getElementById("message").textContent =
+          "Wylosowano nową literę. Zgaduj!";
+        console.log("Wylosowana litera: ", wylosowanaLitera); // Można usunąć po testach
+      }
+
+      function sprawdzLitere() {
+        const userInput = document
+          .getElementById("userInput")
+          .value.toUpperCase();
+        if (userInput === wylosowanaLitera) {
+          document.getElementById("message").textContent =
+            "Brawo! Zgadłeś literę!";
+        } else {
+          document.getElementById("message").textContent = "Spróbuj ponownie!";
+        }
+        document.getElementById("userInput").value = "";
+      }
+
+      function poddajeSie() {
+        document.getElementById(
+          "message"
+        ).textContent = `Poddajesz się. Wylosowana litera to: ${wylosowanaLitera}. Wylosowano nową literę, możesz zgadywać ponownie.`;
+        wylosowanaLitera = losujPolskaLitere();
+        console.log("Wylosowana litera: ", wylosowanaLitera); // Można usunąć po testach
+      }
+
+      window.onload = inicjalizuj;
+    </script>
+  </body>
+</html>
